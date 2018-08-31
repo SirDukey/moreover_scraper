@@ -51,12 +51,15 @@ for i in range(2, 21239):  # cell range is B2 - B21238
     cell = sheet1['B{}'.format(i)].value
 
     '''Populate search field'''
-    search_text = browser.find_element_by_xpath('//*[@id="search_text"]')
-    search_text.send_keys(cell)
-    sleep(1)
-    search_btn = browser.find_element_by_xpath('//*[@id="search_button"]')
-    search_btn.click()
-    sleep(5)
+    try:
+        search_text = browser.find_element_by_xpath('//*[@id="search_text"]')
+        search_text.send_keys(cell)
+        sleep(1)
+        search_btn = browser.find_element_by_xpath('//*[@id="search_button"]')
+        search_btn.click()
+        sleep(5)
+    except:
+        print(str(total), 'no url in cell')
 
     '''Obtain the Title and Language'''
     try:
