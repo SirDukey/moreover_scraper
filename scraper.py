@@ -83,6 +83,7 @@ try:
             clear_text = browser.find_element_by_xpath('//*[@id="search_text"]').clear()
             sleep(5)
 except:
+    print('error completing the scrape, saving as source_list_updated_incomplete.xlsx')
     wb.save('source_list_updated_incomplete.xlsx')
 
 wb.save('source_list_updated.xlsx')
