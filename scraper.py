@@ -47,40 +47,43 @@ print('starting scrape...')
 print()
 
 total = 1
-for i in range(2, 21239):  # cell range is B2 - B21238
-    cell = sheet1['B{}'.format(i)].value
+try:
+    for i in range(2, 21239):  # cell range is B2 - B21238
+        cell = sheet1['B{}'.format(i)].value
 
-    '''Populate search field'''
-    try:
-        search_text = browser.find_element_by_xpath('//*[@id="search_text"]')
-        search_text.send_keys(cell)
-        sleep(1)
-        search_btn = browser.find_element_by_xpath('//*[@id="search_button"]')
-        search_btn.click()
-        sleep(5)
-    except:
-        print(str(total), 'no url in cell')
+        '''Populate search field'''
+        try:
+            search_text = browser.find_element_by_xpath('//*[@id="search_text"]')
+            search_text.send_keys(cell)
+            sleep(1)
+            search_btn = browser.find_element_by_xpath('//*[@id="search_button"]')
+            search_btn.click()
+            sleep(5)
+        except:
+            print(str(total), 'no url in cell')
 
-    '''Obtain the Title and Language'''
-    try:
-        Title = browser.find_element_by_xpath('/html/body/div[1]/div[3]/div/main/div/div[2]/div/div/table/tbody/tr/td[2]/p').text
-        Language = browser.find_element_by_xpath('/html/body/div[1]/div[3]/div/main/div/div[2]/div/div/table/tbody/tr/td[6]').text
-        sheet1['G{}'.format(i)] = Title
-        sheet1['H{}'.format(i)] = cell
-        sheet1['I{}'.format(i)] = Language
-        print(str(total), cell, 'Title:', Title, 'Language:', Language)
-        total += 1
-    except:
-        Title = 'not found'
-        Language = 'not found'
-        sheet1['G{}'.format(i)] = Title
-        sheet1['H{}'.format(i)] = cell
-        sheet1['I{}'.format(i)] = Language
-        print(str(total), cell, 'Title:', Title, 'Language:', Language)
-        total += 1
-    finally:
-        clear_text = browser.find_element_by_xpath('//*[@id="search_text"]').clear()
-        sleep(5)
+        '''Obtain the Title and Language'''
+        try:
+            Title = browser.find_element_by_xpath('/html/body/div[1]/div[3]/div/main/div/div[2]/div/div/table/tbody/tr/td[2]/p').text
+            Language = browser.find_element_by_xpath('/html/body/div[1]/div[3]/div/main/div/div[2]/div/div/table/tbody/tr/td[6]').text
+            sheet1['G{}'.format(i)] = Title
+            sheet1['H{}'.format(i)] = cell
+            sheet1['I{}'.format(i)] = Language
+            print(str(total), cell, 'Title:', Title, 'Language:', Language)
+            total += 1
+        except:
+            Title = 'not found'
+            Language = 'not found'
+            sheet1['G{}'.format(i)] = Title
+            sheet1['H{}'.format(i)] = cell
+            sheet1['I{}'.format(i)] = Language
+            print(str(total), cell, 'Title:', Title, 'Language:', Language)
+            total += 1
+        finally:
+            clear_text = browser.find_element_by_xpath('//*[@id="search_text"]').clear()
+            sleep(5)
+except:
+    wb.save('source_list_updated_incomplete.xlsx')
 
 wb.save('source_list_updated.xlsx')
 print()
